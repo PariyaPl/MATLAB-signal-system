@@ -7,36 +7,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="styles.css" rel="stylesheet"/>    
   </head>
-  <body>
+  <body dir="rtl">
     <main id="main-doc">
       <nav id="navbar">
-          <a class="nav-link" href="#first">فصل اول</a>
-          <a class="nav-link" href="#second">فصل دوم</a>
-          <a class="nav-link" href="#third">فصل سوم</a>
-          <a class="nav-link" href="#fourth">فصل چهارم</a>
+          <a class="nav-link" href="#first">فصل 1</a>
+          <a class="nav-link" href="#second">فصل 2</a>
+          <a class="nav-link" href="#third">فصل 3</a>
+          <a class="nav-link" href="#fourth">فصل 4</a>
           <a class="nav-link" href="#prj">پروژه</a>
       </nav>
       <h1>متلب درس سیگنال سیستم</h1>
       <section class="main-section" id="first">
         <header>فصل اول: نمودار‌ها در متلب</header>
-        <p></p>
-        <code></code>
+        <h2>بخش اول: رسم نمودار‌های سیگنال به صورت پیوسته</h2>
+        <p>برای رسم توابع پیوسته از تابع plot استفاده می‌کنیم. دو ورودی اول این تابع به ترتیب متغییر محور افقی و عمودی هستند و بقیه‌ی ورودی‌ها برای تعیین شکل نمودار است.  برای رسم چند نمودار در یک صفحه و در کنار هم، از subplot استفاده می‌کنیم. که ورودی اول و دوم آن تعیین‌کننده‌ی ستون و ردیف و ورودی سوم تعیین کننده‌ی محل نمودار است.</p>
+        <code>%% 1-1) Ploting continuous time signals:<br/>
+          clear; clc; figure(1)<br/>
+          t = linspace(-3*pi,3*pi,1000);<br/>
+          <br/>
+          subplot(2,2,1)<br/>
+          plot(t,sin(t),"color", [0, 0, 0.7] ,"LineWidth", 3);<br/>
+          hold on;<br/>
+          plot(t,cos(t),"color", [0.5, 0.5, 1] ,"LineWidth", 3);<br/>
+          grid on;<br/>
+          xlabel("-----  t  -----");<br/>
+          ylabel("----- Sin(t) & Cos(t) -----")<br/>
+          legend("Sin(t)", "Cos(t)");<br/>
+          <br/>
+          subplot(2,2,2)<br/>
+          plot(t,sinc(t),"color", [0.3, 0.5, 0.5] ,"LineWidth", 3);<br/>
+          xlabel("-----  t  -----");<br/>
+          ylabel("----- Sinc(t) -----");</code>
+        <h2>بخش دوم: رسم نمودار‌های سیگنال به صورت گسسته</h2>
+        <p>برای رسم توابع گسسته از تابع stem  استفاده می‌کنیم. عملکرد این تابع از نظر ورودی‌ها دقیقا شبیه plot است و تنها تفاوت نحوه‌ی رسم نمودارها است. اینجا هم می‌شود از subplot استفاده کرد.</p>
+        <code>%% 1-2) Plotting discrete time signals:<br/>
+          n = -3*pi : pi/8 : 3*pi;<br/>
+          <br/>
+          subplot(2,2,3)<br/>
+          stem(n,sin(n),"color", [0, 0, 0.7] ,"LineWidth", 2);<br/>
+          hold on;<br/>
+          stem(n,cos(n),"color", [0.5, 0.5, 1] ,"LineWidth", 2);<br/>
+          xlabel("-----  n  -----");<br/>
+          ylabel("----- Sin(n) & Cos(n) -----")<br/>
+          legend("Sin(n)", "Cos(n)");<br/>
+          <br/>
+          subplot(2,2,4)<br/>
+          stem(n,sinc(n),"color", [0.3, 0.5, 0.5] ,"LineWidth", 2);<br/>
+          xlabel("-----  n  -----");<br/>
+          ylabel("----- Sinc(n) -----");</code>
+        <h2>بخش سوم: مقدار میانگین سیگنال (گسسته)</h2>
+        <p>تابع mean در متلب، به عنوان ورودی یک لیست می‌گیرد و میانگین آن‌ها را به عنوان خروجی می‌دهد. به همین دلیل از همین تابع می‌توان برای محاسبه‌ی مقدار میانگین سیگنال‌های گسسته استفاده کرد.</p>
+        <code>%% 1-3) Calculating the signal's average value (discrete)<br/>
+          n = -3*pi : pi/8 : 3*pi;<br/>
+          f = sinc(n);<br/>
+          f_avg = mean(f);<br/>
+          disp("1-3)");<br/>
+          disp("Average of the discrete sinc(n) signal from -3pi to 3pi is ((  "+f_avg+"  ))");<br/>
+          disp("-------------------");</code>
+        <h2>بخش چهارم: انرژی و توان سیگنال (گسسته)</h2>
+        <p>تابع sum در متلب، به عنوان ورودی یک لیست می‌گیرد و جمع آن‌ها را به عنوان خروجی می‌دهد. به همین دلیل از همین تابع می‌توان برای محاسبه‌ی انرژی‌ و توان سیگنال‌های گسسته استفاده کرد. چون انرژی این سیگنال‌ها در یک بازه‌ی مشخص برابر با جمع توان دوم سیگنال است.</p>
+        <code>%% 1-4) Calculating the signal's energy and power (discrete)<br/>
+          n = -3*pi : pi/8 : 3*pi;<br/>
+          f = sinc(n);<br/>
+          f_enegry = sum(f.*f);<br/>
+          disp("1-4)");<br/>
+          disp("The discrete sinc(n) signal's energy from -3pi to 3pi is ((  "+f_enegry+"  ))");<br/>
+          disp("-------------------");<br/>
+          f_power = f_enegry / length(f);<br/>
+          disp("The discrete sinc(n) signal's power from -3pi to 3pi is ((  "+f_power+"  ))");<br/>
+          disp("-------------------");</code>
+          <h2>بخش پنجم: تعریف و رسم سیگنال چند ضابطه ای در متلب</h2>
+          <p>در متلب نتیجه‌ی استفاده از عملگر‌های مقایسه‌ای به صورت true یا false یا به عبارتی عدد صفر یا یک است. از این ویژگی می‌توان برای تعریف توابع چند ضابطه‌ای در یک خط استفاده کرد.</p>
+          <code>%% 1-5) Defining and plotting a piecewise function<br/>
+            figure(2)<br/>
+            t = linspace(-1,2,1000);<br/>
+            x = (t <= 1).*(2*t) + (t > 1)*(2);<br/>
+            %subplot(3,2,5)<br/>
+            plot(t,x,"color", [0.5, 0.7, 0.5] ,"LineWidth", 7);<br/>
+            grid on;</code>
+            <a href="https://github.com/PariyaPl/Signal-Matlab-Files/blob/main/SignalSystemFasl1Matlab.m">مشاهده‌ کل کد‌های فصل اول</a>
       </section>
+      <div class="divi"></div>
+
       <section class="main-section" id="second">
         <header>فصل دوم: توابع متلب برای سیستم‌ها</header>
         <p></p>
         <code></code>
       </section>
+      <div class="divi"></div>
+
       <section class="main-section" id="third">
         <header>فصل سوم: شرط‌ها، لوپ‌ها و تعریف توابع در متلب</header>
         <p></p>
         <code></code>
       </section>
+      <div class="divi"></div>
+
       <section class="main-section" id="fourth">
         <header>فصل چهارم: توابع متلب برای محاسبات کاربردی</header>
         <p></p>
         <code></code>
       </section>
+      <div class="divi"></div>
+
       <section class="main-section" id="prj">
         <header>پروژه</header>
         <p></p>
