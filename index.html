@@ -91,8 +91,70 @@
 
       <section class="main-section" id="second">
         <header>فصل دوم: توابع متلب برای سیستم‌ها</header>
-        <p></p>
-        <code></code>
+        <h2>بخش اول: تعریف سیستم خطی به صورت تابع تبدیل</h2>
+        <p>سیستم خطی در متلب با استفاده از تابع tf تعریف می‌شود. ورودی اول و دوم این تابع به ترتیب ضرایب صورت و مخرج تابع تبدیل سیستم هستند.</p>
+        <code>%% 2-1) Defining a system as transfer function<br/>
+          clc; clear;<br/>
+          <br/>
+          numerator = [1,2];      % s + 2<br/>
+          denominator = [3,4,5];  % 3s^2 + 4s + 5<br/>
+          disp("2-1)");<br/>
+          system1 = tf(numerator,denominator)<br/>
+          disp("----------------------------------");</code>
+        <h2>بخش دوم: ترکیب کردن سیستم‌ها در متلب</h2>
+        <p>توابع series، parallel، و feedback در متلب برای ترکیب سیستم‌هایی که به کمک tf تعریف می‌شوند.</p>
+        <code>%% 2-2) Combining systems<br/>
+          disp("2-2)");<br/>
+          system2 = tf([2,3],[1,2,3])<br/>
+          <br/>
+          systemsSeries = series(system1,system2)<br/>
+          <br/>
+          systemsParallel = parallel(system1,system2)<br/>
+          <br/>
+          systemsFeedback = feedback(system1,system2)<br/>
+          <br/>
+          disp("----------------------------------");</code>
+        <h2>بخش سوم: رسم پاسخ ضربه و پله‌ی سیستم</h2>
+        <p>تابع impulse و Step  در متلب، یک سیستم به عنوان ورودی می‌گیرند. اگر این توابع فقط فراخوانی شوند، به ترتیب پاسخ ضربه و پاسخ پله‌ی سیستم را رسم می‌کنند. اما می‌شود حاصل فراخوانی این توابع را مساوی لیستی شامل دو پارامتر قرار داد. در این صورت این لیست، سیگنال مربوطه خواهد بود، به این صورت که پارامتر اول لیست، مقدار نمودار عمودی و پارامتر دوم، مقدار نمودار افقی یا در واقع زمان است. با داشتن این دو پارامتر می‌توانیم سیگنال‌ها را بررسی کنیم و یا مثل کد متلبی که در ادامه آورده شده آن‌ها را با رنگ و شکل دلخواه رسم کنیم.</p>
+        <code>%% 2-3) System's impulse response and step response<br/>
+          figure(1);<br/>
+          <br/>
+          [h,t] = impulse(system1);   % Impulse response<br/>
+          plot(t,h,"color", [0, 0, 0.7] ,"LineWidth", 3);<br/>
+          <br/>
+          hold on<br/>
+          <br/>
+          [s,t] = step(system1);      % Step response<br/>
+          plot(t,s,"color", [0.9, 0.5, 0.5] ,"LineWidth", 3);<br/>
+          <br/>
+          grid on<br/>
+          title("Impulse and Step response")<br/>
+          legend("Impulse response", "Step response")<br/>
+          <br/>
+          %% 2-3+) Other option: the folowing codes will plot responses instantly<br/>
+          % (only this way you can't change your plot style or color<br/>
+          figure(2); impulse(system1); hold on;<br/>
+          figure(2); step(system1);</code>
+        <h2>بخش چهارم: رسم پاسخ سیستم به ورودی‌ دلخواه</h2>
+        <p>تابع lsim برای رسم پاسخ سیستم به ورودی دلخواه استفاده می‌شود. این تابع سه ورودی دارد. ورودی اول، سیستم است که با تابع tf متلب تعریف شده و ورودی دوم و سوم سیگنال ورودی هستند. به این ترتیب که دومین ورودی محور افقی و سومین ورودی محور زمان است. خروجی سیستم برابر با لیستی شامل محور عمودی و محور زمان برای سیگنال خروجی خواهد بود. مشابه توابع بخش قبل، اگر نتیجه‌ی تابع برابر لیست قرار داده نشود و تابع فقط فراخوانی شود، ورودی و خروجی سیستم بر روی یک نمودار با هم رسم می‌شوند.</p>
+        <code>%% 2-4) Systems response to any desired input<br/>
+          figure(3);<br/>
+          t = 0:0.01:3;<br/>
+          x = sin(10*t).*exp(-10*t);<br/>
+          [y,t] = lsim(system1,x,t);   % u,t define the input signal<br/>
+          <br/>
+          plot(t,x,"color", [0, 0.6, 0] ,"LineWidth", 3);   % plot input<br/>
+          hold on<br/>
+          plot(t,y,"color", [0.9, 0, 0.5] ,"LineWidth", 3);   % plot output<br/>
+          <br/>
+          grid on<br/>
+          title("Impulse and Step response")<br/>
+          legend("x = e^{-10t}Sin(10t)", "y(system output for x)")<br/>
+          <br/>
+          %% 2-4) Other option: like before we can plot the output with the folowing code:<br/>
+          figure(4); lsim(system1,x,t);<br/>
+          </code>
+        <a href="https://github.com/PariyaPl/Signal-Matlab-Files/blob/main/SignalSystemFasl2Matlab.m">مشاهده‌ کل کد‌های فصل دوم</a>
       </section>
       <div class="divi"></div>
 
