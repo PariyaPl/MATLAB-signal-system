@@ -160,8 +160,67 @@
 
       <section class="main-section" id="third">
         <header>فصل سوم: شرط‌ها، لوپ‌ها و تعریف توابع در متلب</header>
-        <p></p>
-        <code></code>
+        <h2>بخش اول: دستورات شرطی if و switch در متلب</h2>
+        <p>در ادامه برای معرفی سینتکس if و switch از هر کدام یک مثال آورده شده. در مثال مربوط به if، اگر شرط اول برقرار نباشد، شرط دوم یعنی elseif بررسی می‌شود و اگر این شرط هم برقرار نباشد، نهایتا دستورات بخش else انجام می‌شود. در مثال مربوط به switch، متغییری که مورد بررسی قرار گرفته، زاویه‌ی عدد مختلط z است که با استفاده از تابع angle در متلب به دست آمده. در صورت برابر بودن این زاویه با هر یک از اعدادی که مقابل caseها آورده شده اند، دستورات مربوطه اجرا می‌شود. و اگر با هیچ کدام برابر نبود، دستورات بخش otherwise اجرا می‌شود. </p>
+        <code>%% 3-1) 1- if<br/>
+          clc; clear;<br/>
+          <br/>
+          z = input("Enter a complex number:   ");<br/>
+          if abs(z)==1 <br/>
+              disp("Your number is on the unit circle");<br/>
+          elseif abs(z) < 1<br/>
+              disp("Your number is in the unit circle");<br/>
+          else<br/>
+              disp("Your number is out of the unit circle");<br/>
+          end<br/>
+          <br/>
+          %% 3-1) 2- switch<br/>
+          z = input("Enter a complex number:   ");<br/>
+          switch angle(z) <br/>
+              case 0<br/>
+                  disp("Your number is on the right side of the Real axis");<br/>
+              case pi<br/>
+                  disp("Your number is on the left side of the Real axis");<br/>
+              case pi/2<br/>
+                  disp("Your number is on the Upper side of the Imaginary axis");<br/>
+              case 3*pi/2<br/>
+                  disp("Your number is on the Upper side of the Imaginary axis");<br/>
+              otherwise<br/>
+                  disp("Your number is not on the Real or Imaginary axis");<br/>
+          end<br/>
+          </code>
+        <h2>بخش دوم: حلقه‌های for و while در متلب</h2>
+        <p>سینتکس لوپ for و while در ادامه با یک مثال آورده شده. هر دو مقادیر ضرایب سری فوریه‌ی یک سیگنال گسسته با دوره تناوب ده را از کاربر می‌گیرند و با استفاده از رابطه‌ی پارسوال انرژی سیگنال را حساب می‌کنند. در این مثال دستور for، مقدار n را برابر با یک لیست از اعداد صحیح از یک تا ده قرار داده. در متلب این لیست می‌تواند هر لیستی از اعداد یا مقادیر دیگر باشد. برای مثال این لیست می‌تواند شامل تعداد متغییر از نوع string باشد و حلقه در هر دور به ترتیب n را برابر با یکی از آن‌ها در نظر می‌گیرد.</p>
+        <code>%% 3-2) 1- for<br/>
+          disp("Enter the fourier series coefficients of a signal with N=10");<br/>
+          Power = 0;<br/>
+          for n = 1:10<br/>
+              disp("---------------------------------------");<br/>
+              c = input("Enter coefficient no." + n + ":   ");<br/>
+              Power = Power + c^2;<br/>
+          end<br/>
+          disp("The signal's power is:  "+Power);<br/>
+          <br/>
+          %% 3-2) 2- while<br/>
+          disp("Enter the fourier series coefficients of a signal with N=10");<br/>
+          Power = 0;<br/>
+          n = 1;<br/>
+          c = 0;<br/>
+          while n < 11<br/>
+              disp("---------------------------------------");<br/>
+              c = input("Enter coefficient no." + n + ":   ");<br/>
+              Power = Power + c^2;<br/>
+              n = n+1;<br/>
+          end<br/>
+          disp("The signal's power is:  "+Power);<br/>
+          </code>
+        <h2>بخش سوم: تعریف توابع در متلب</h2>
+        <p>برای تعریف تابع در متلب، باید اول از قسمت new، "Function" را انتخاب کنیم. این کار یک فایل جدید برای ما می‌سازد که فایل تابع است. اسم تابع، بعد از علامت مساوی نوشته می‌شود. در مثال زیر اسم این تابع PowerWithParseval است. برای اینکه متلب بتواند تابع را خارج از این فایل پیدا کند. اسم فایل تابع هم باید به صورت PowerWithParseval.m باشد. <br/><br/>
+          عملکرد تابعی که در مثال زیر تعریف شده است، به این صورت است که مقادیر ضرایب سری فوریه گسسته را در یک لیست به عنوان ورودی دریافت می‌کند و توان سیگنال را با استفاده از تابع sum روی توان دوی ضرایب به دست می‌آورد. (رابطه‌ی پارسوال)
+          </p>
+        <code>function Power = PowerWithParseval(FourierCoefficients)<br/>
+          Power = sum(FourierCoefficients.^2);<br/>
+          end</code>
       </section>
       <div class="divi"></div>
 
