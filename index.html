@@ -226,8 +226,84 @@
 
       <section class="main-section" id="fourth">
         <header>فصل چهارم: توابع متلب برای محاسبات کاربردی</header>
-        <p></p>
-        <code></code>
+        <h2>بخش اول: تبدیل لاپلاس در متلب</h2>
+        <p>برای محاسبه‌ی تبدیل لاپلاس یک تابع در متلب، ابتدا باید t را به عنوان یک متغییر سمبلیک تعریف کنیم. این کار به کمک syms در متلب انجام می‌شود. بعد باید تابع مورد نظر را با استفاده از متغییر t تعریف کنیم و آن را به عنوان ورودی به تابع laplace متلب بدهیم. خروجی برابر تبدیل لاپلاس آن خواهد شد.</p>
+        <code>%% 4-1) Laplace transform<br/>
+          clear; clc;<br/>
+          syms t <br/>
+          f = sin(t);<br/>
+          F = laplace(f);<br/>
+          disp("4-1)")<br/>
+          disp("laplace transform of Sin(t) is: ")<br/>
+          disp(F)<br/>
+          </code>
+        <h2>بخش دوم: تبدیل معکوس لاپلاس در متلب</h2>
+        <p>محاسبه‌ی معکوس تبدیل لاپلاس با استفاده از متلب، مشابه لاپلاس است. این بار باید s را به کمک syms تعریف کنیم و تابع مورد نظر را با استفاده از آن تعریف کنیم و آن را به عنوان ورودی به تابع ilaplace بدهیم. خروجی معکوس تبدیل لاپلاس خواهد بود.</p>
+        <code>%% 4-2) Inverse laplace transform<br/>
+          syms s<br/>
+          F = 1/(s^2 + 1);<br/>
+          f = ilaplace(F);<br/>
+          disp("4-2)")<br/>
+          disp("Inverse laplace transform of 1/(s^2 + 1) is: ")<br/>
+          disp(f)<br/>
+          </code>
+        <h2>بخش سوم: محاسبه حد به کمک متلب</h2>
+        <p>تابع limit در متلب برای محاسبه‌ی حد است. در مثال زیر، اولین ورودی این تابع، عبارتی است که از آن حد می‌گیریم. حد این عبارت در حالتی که h (ورودی دوم) به سمت صفر (ورودی سوم) میل می‌کند محاسبه می‌شود.</p>
+        <code>%% 4-3) limit in matlab<br/>
+          syms h n x;<br/>
+          LimX = limit((sin(x+h)-sin(x))/h, h, 0);<br/>
+          disp("4-3)")<br/>
+          disp("The answer to lim((sin(x+h)-sin(x))/h) when h -> 0 is: ")<br/>
+          disp(LimX);<br/>
+          </code>
+        <h2>بخش چهارم: مشتق و انتگرال در متلب</h2>
+        <p>برای گرفتن مشتق از یک تابع نسبت به یک متغییر، اول باید متغییر‌های تابع را به کمک syms تعریف کنیم. سپس تابع را به کمک متغییرهایش تعریف کنیم و بعد از تابع مشتق متلب یعنی diff استفاده کنیم. ورودی اول آن، تابعی است که می‌خواهیم مشتق آن را محاسبه کنیم و ورودی دوم متغییری است که می‌خواهیم نسبت به آن مشتق بگیریم. اگر علاوه بر این به diff یک ورودی دیگر هم به صورت اعداد طبیعی بدهیم، diff این عدد را به عنوان درجه‌ی مشتق در نظر می‌گیرد. برای مثال اگر عدد دو را به عنوان ورودی سوم بدهیم، مشتق مرتبه‌ دوم را به عنوان خروجی می‌دهد.
+          <br/> <br/>
+          در ادامه‌ی کد زیر، نحوه‌ی استفاده از تابع integral هم با یک مثال آورده شده. برای استفاده از آن باید تابع x را با استفاده از علامت @ تعریف کنیم. این علامت مشخص می‌کند که تابع x نسبت به چه متغییری انتگرال گیری شود.در مثال زیر این متغییر t است. ورودی اول integral، تابع x است و ورودی دوم و سوم، حد پایین و بالای انتگرال‌گیری هستند.
+          </p>
+        <code>%% 4-4) 1- Differentiation <br/>
+          disp("4-4)")<br/>
+          <br/>
+          syms t a<br/>
+          x = sin(a*t);<br/>
+          <br/>
+          dx_dt = diff(x,t);  <br/>
+          disp("For x=sin(a*t), dx/dt is: ")<br/>
+          disp(dx_dt);<br/>
+          <br/>
+          d2x_dt2 = diff(x,t,2);<br/>
+          disp("For x=sin(a*t), d^2x/dt^2 is: ")<br/>
+          disp(d2x_dt2);<br/>
+          <br/>
+          %% 4-4) 2- Integral<br/>
+          <br/>
+          % Defining the signal that we want to calculate its integral:<br/>
+          x = @(t) exp(-t).*sin(t);    % don't forget the dots<br/>
+          disp("The integral of exp(-t).*sin(t) from 0 to pi is: ")<br/>
+          Int_x = integral(x,0,pi);<br/>
+          <br/>
+          disp(Int_x);<br/>
+          </code>
+        <h2>بخش پنجم: رسم تبدیل فوریه توابع به کمک متلب</h2>
+        <p>الگوی زیر برای به دست آوردن تبدیل فوریه سیگنال با کمک تابع fft و نمایش دادن آن استفاده می‌شود که در کلاس توضیح داده شد.</p>
+        <code>%% 4-5) Ploting a function's fourier transform Magnitude<br/>
+          Ts = 1/50;<br/>
+          t = 0:Ts:10-Ts;<br/>
+          x = sin(10*2*pi*t) + 2*sin(5*2*pi*t); <br/>
+          <br/>
+          X = fft(x);  % Fourier Transform<br/>
+          X_shift = fftshift(X);<br/>
+          <br/>
+          Fs = 1/Ts;   % Sampling frequency<br/>
+          n = length(x);<br/>
+          f = (-n/2:n/2-1)*(Fs/n); % Frequency axis<br/>
+          <br/>
+          figure(1);<br/>
+          plot(f, abs(X_shift) ,"color", [0, 0, 0.7] ,"LineWidth", 2);<br/>
+          xlabel('Frequency (Hz)');<br/>
+          ylabel('Magnitude');<br/>
+          title('Magnitude of the Fourier Transform');<br/>
+          </code>
       </section>
       <div class="divi"></div>
 
@@ -235,7 +311,6 @@
         <header>پروژه</header>
         <p></p>
         <code></code>
-      </section>
       </section>
     </main>
 
